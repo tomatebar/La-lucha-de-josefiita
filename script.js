@@ -1,128 +1,169 @@
-const ramos = {
+const malla = {
   "1er Semestre": [
-    { id: "intro_to", nombre: "Intro. a la T.O" },
-    { id: "etica", nombre: "Ética en Salud" },
-    { id: "quimica", nombre: "Integrado Químico Biológico" },
-    { id: "comunicacion", nombre: "Habilidades de Comunicación" },
-    { id: "trabajo_comunitario", nombre: "Intro. al Trabajo Comunitario" },
-    { id: "ingles1", nombre: "Inglés I" },
-    { id: "psico_comunicacion", nombre: "Psicología de la Comunicación" },
-    { id: "practica1", nombre: "Práctica Curricular I", prerequisitos: ["admision"] }
+    "Introducción a la T.O",
+    "Ética en Salud",
+    "Integrado Químico Biológico",
+    "Habilidades de Comunicación Oral y Escrita",
+    "Introducción al Trabajo Comunitario en Salud",
+    "Inglés I",
+    "Psicología de la Comunicación",
+    "Práctica Curricular I"
   ],
   "2do Semestre": [
-    { id: "fundamentos_to", nombre: "Fundamentos para la T.O", prerequisitos: ["intro_to"] },
-    { id: "morfologia", nombre: "Integrado Morfología Humana" },
-    { id: "socioantropologia", nombre: "Socioantropología" },
-    { id: "ingles2", nombre: "Inglés II" },
-    { id: "inclusion1", nombre: "Inclusión Social I" },
-    { id: "transversal1", nombre: "Curso Transversal Inst. I" },
-    { id: "electivo", nombre: "Electivo Formación General" },
-    { id: "practica2", nombre: "Práctica Curricular II", prerequisitos: ["fundamentos_to", "practica1"] }
+    "Fundamentos para la T.O",
+    "Integrado Morfología Humana",
+    "Socioantropología",
+    "Inglés II",
+    "Inclusión Social I",
+    "Curso Transversal Institucional I",
+    "Electivo Formación General",
+    "Práctica Curricular II"
   ],
   "3er Semestre": [
-    { id: "modelos1", nombre: "Modelos de Intervención I", prerequisitos: ["fundamentos_to"] },
-    { id: "fisiologia", nombre: "Integrado de Fisiología Humana", prerequisitos: ["quimica"] },
-    { id: "educacion_salud", nombre: "Educación en Salud", prerequisitos: ["trabajo_comunitario"] },
-    { id: "locomotor", nombre: "Anatomía Funcional y Biomecánica", prerequisitos: ["morfologia"] },
-    { id: "habilidades1", nombre: "Habilidades Terapéuticas I", prerequisitos: ["fundamentos_to"] },
-    { id: "inclusion2", nombre: "Inclusión Social II", prerequisitos: ["inclusion1"] },
-    { id: "curso_vida1", nombre: "Curso de Vida I", prerequisitos: ["admision"] },
-    { id: "practica3", nombre: "Práctica Curricular III", prerequisitos: ["fundamentos_to", "practica2"] }
+    "Modelos de Intervención en la T.O I",
+    "Integrado de Fisiología Humana",
+    "Educación en Salud",
+    "Integrado Anatomía Funcional y Biomecánica del Aparato Locomotor",
+    "Habilidades y Actividades Terapéuticas I",
+    "Inclusión Social II",
+    "Curso de Vida I",
+    "Práctica Curricular III"
+  ],
+  "4to Semestre": [
+    "Modelos de Intervención en T.O II",
+    "Integrado Neurociencia",
+    "Integrado Salud Pública",
+    "Habilidades y Actividades Terapéuticas II",
+    "Curso de Vida II",
+    "Inclusión Social III",
+    "Curso Transversal Institucional II",
+    "Práctica Curricular IV"
+  ],
+  "5to Semestre": [
+    "Examen de Competencias Tramo Básico",
+    "Integrado T.O en Niños/as y Adolescentes I",
+    "Integrado T.O en Adultos I",
+    "Integrado T.O en Personas Mayores I",
+    "Gestión en Salud",
+    "Introducción al Análisis de Datos",
+    "Metodología de la Investigación I",
+    "Práctica Curricular V"
+  ],
+  "6to Semestre": [
+    "Integrado T.O en Niños/as y Adolescentes II",
+    "Integrado T.O en Adultos II",
+    "Integrado T.O en Personas Mayores II",
+    "Nuevas Tecnologías Aplicadas a la T.O",
+    "Gestión y Liderazgo en Salud Comunitaria",
+    "Metodología de la Investigación II",
+    "Salud Ocupacional y Ergonomía I",
+    "Práctica Curricular VI"
+  ],
+  "7mo Semestre": [
+    "Integrado T.O en Niños/as y Adolescentes III",
+    "Integrado T.O en Adultos III",
+    "Integrado T.O en Personas Mayores III",
+    "Salud Ocupacional y Ergonomía II",
+    "Proyecto de Inclusión Social I",
+    "Ortotica I",
+    "Proyecto de Investigación I",
+    "Práctica Curricular VII"
+  ],
+  "8vo Semestre": [
+    "Integrado T.O en Niños/as y Adolescentes IV",
+    "Integrado T.O en Adultos IV",
+    "Integrado T.O en Personas Mayores IV",
+    "Ortotica II",
+    "Proyecto de Inclusión Social II",
+    "Proyecto de Investigación II",
+    "Bioética",
+    "Práctica Curricular VIII"
+  ],
+  "9no y 10mo Semestre": [
+    "Examen de Competencias de Tramo",
+    "Práctica Profesional I",
+    "Práctica Profesional II",
+    "Práctica Profesional III",
+    "Examen de Competencias Profesionales"
   ]
-  // Puedes continuar agregando los demás semestres aquí como en versiones anteriores
 };
 
-const aprobados = new Set();
-const notas = {};
+function crearMalla() {
+  const contenedor = document.getElementById("malla");
+  Object.entries(malla).forEach(([semestre, ramos]) => {
+    const bloque = document.createElement("div");
+    bloque.className = "semestre";
+    const titulo = document.createElement("h3");
+    titulo.textContent = semestre;
+    bloque.appendChild(titulo);
 
-const storedAprobados = localStorage.getItem("aprobados");
-if (storedAprobados) {
-  JSON.parse(storedAprobados).forEach(id => aprobados.add(id));
-}
+    ramos.forEach(ramo => {
+      const item = document.createElement("div");
+      item.className = "ramo";
 
-const storedNotas = localStorage.getItem("notas");
-if (storedNotas) {
-  Object.assign(notas, JSON.parse(storedNotas));
-}
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.addEventListener("change", actualizarProgreso);
 
-function guardarDatos() {
-  localStorage.setItem("aprobados", JSON.stringify(Array.from(aprobados)));
-  localStorage.setItem("notas", JSON.stringify(notas));
-}
+      const label = document.createElement("label");
+      label.textContent = " 📚 " + ramo;
 
-function calcularPromedio(id) {
-  const notasRamo = notas[id] || [0, 0, 0, 0];
-  return (
-    notasRamo[0] * 0.2 +
-    notasRamo[1] * 0.25 +
-    notasRamo[2] * 0.3 +
-    notasRamo[3] * 0.25
-  ).toFixed(1);
-}
+      const notaContainer = document.createElement("span");
+      notaContainer.className = "notas";
 
-function renderMalla() {
-  const container = document.getElementById("contenedor-malla");
-  container.innerHTML = "";
-
-  for (let semestre in ramos) {
-    const div = document.createElement("div");
-    div.className = "semestre";
-    const title = document.createElement("h2");
-    title.textContent = semestre;
-    div.appendChild(title);
-
-    ramos[semestre].forEach(ramo => {
-      const r = document.createElement("div");
-      r.className = "ramo";
-      const bloqueado = ramo.prerequisitos && !ramo.prerequisitos.every(p => aprobados.has(p));
-      const aprobado = aprobados.has(ramo.id);
-
-      if (aprobado) r.classList.add("aprobado");
-      else if (bloqueado) r.classList.add("bloqueado");
-
-      const nombre = document.createElement("span");
-      nombre.textContent = ramo.nombre;
-
-      const promedio = document.createElement("span");
-      promedio.className = "promedio";
-      promedio.textContent = `🩷 Prom: ${calcularPromedio(ramo.id)}`;
-
-      r.appendChild(nombre);
-      r.appendChild(promedio);
-
-      if (!bloqueado) {
-        r.onclick = () => {
-          if (aprobados.has(ramo.id)) aprobados.delete(ramo.id);
-          else aprobados.add(ramo.id);
-          guardarDatos();
-          renderMalla();
-        };
-      }
-
-      const divNotas = document.createElement("div");
-      divNotas.className = "notas";
-      divNotas.innerHTML = "Notas: ";
-      notas[ramo.id] = notas[ramo.id] || [0, 0, 0, 0];
+      let notas = [];
       for (let i = 0; i < 4; i++) {
         const input = document.createElement("input");
         input.type = "number";
         input.min = 1;
         input.max = 7;
         input.step = 0.1;
-        input.value = notas[ramo.id][i];
-        input.oninput = () => {
-          notas[ramo.id][i] = parseFloat(input.value) || 0;
-          promedio.textContent = `🩷 Prom: ${calcularPromedio(ramo.id)}`;
-          guardarDatos();
-        };
-        divNotas.appendChild(input);
+        input.placeholder = "N" + (i + 1);
+        input.className = "nota";
+        input.addEventListener("input", () => calcularPromedio(item));
+        notas.push(input);
+        notaContainer.appendChild(input);
       }
-      r.appendChild(divNotas);
-      div.appendChild(r);
+
+      const promedioSpan = document.createElement("span");
+      promedioSpan.className = "promedio";
+      promedioSpan.textContent = "📊 -";
+
+      item.appendChild(checkbox);
+      item.appendChild(label);
+      item.appendChild(notaContainer);
+      item.appendChild(promedioSpan);
+      bloque.appendChild(item);
     });
 
-    container.appendChild(div);
-  }
+    contenedor.appendChild(bloque);
+  });
+
+  actualizarProgreso();
 }
 
-renderMalla();
+function calcularPromedio(item) {
+  const inputs = item.querySelectorAll("input.nota");
+  const valores = Array.from(inputs).map(input => parseFloat(input.value));
+  if (valores.some(isNaN)) {
+    item.querySelector(".promedio").textContent = "📊 -";
+    return;
+  }
+
+  const promedio = valores[0] * 0.2 + valores[1] * 0.25 + valores[2] * 0.3 + valores[3] * 0.25;
+  const texto = promedio.toFixed(1);
+  const span = item.querySelector(".promedio");
+  span.textContent = "📊 " + texto;
+  span.style.color = promedio >= 4.0 ? "green" : "red";
+}
+
+function actualizarProgreso() {
+  const checkboxes = document.querySelectorAll("input[type='checkbox']");
+  const total = checkboxes.length;
+  const completados = Array.from(checkboxes).filter(cb => cb.checked).length;
+  const porcentaje = Math.round((completados / total) * 100);
+  document.getElementById("barra-progreso").style.width = porcentaje + "%";
+  document.getElementById("barra-progreso").textContent = porcentaje + "%";
+}
+
+window.onload = crearMalla;
